@@ -1,0 +1,4 @@
+Rocky 4;Lucha;Esto es el resumen de Rocky 4;Benet;10;
+REC;Terror;Esto es el resumen de REC;Xavi;5;
+La red;Accion;Esto es el resumen de La Red;Gerard;6;
+Java;Terror;Esto es el resum de Java;Java;7;
