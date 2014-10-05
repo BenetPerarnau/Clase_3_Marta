@@ -10,7 +10,7 @@ public class TestPelicula {
 
 	private static BufferedReader stdin=new BufferedReader (new InputStreamReader(System.in));
 	static ArrayList <String[]> bbdd=new ArrayList<String[]>();
-	
+	static ArrayList <Pelicula> bbdd2=new ArrayList<Pelicula>();
 	public static void main(String[] args) {
 		
 		byte op=0;
@@ -39,10 +39,19 @@ public class TestPelicula {
 					fr=new FileReader(archivo);
 					br=new BufferedReader(fr);
 					String linea="";
+					
 					while((linea=br.readLine())!=null){
 						bbdd.add(linea.split(";"));
+						
 					}
 					fr.close();
+					////op 2
+					
+					Pelicula a=new Pelicula(bbdd.get(1)[0],bbdd.get(1)[1],bbdd.get(1)[2],bbdd.get(1)[3],Integer.parseInt(bbdd.get(1)[4]));
+					Pelicula b=new Pelicula(bbdd.get(0)[0],bbdd.get(0)[1],bbdd.get(0)[2],bbdd.get(0)[3],Integer.parseInt(bbdd.get(0)[4]));
+					bbdd2.add(a);
+					bbdd2.add(b);
+					////
 					
 				}catch(Exception e){
 					System.out.println("Error en cargar la BBDD en el array");
@@ -74,6 +83,17 @@ public class TestPelicula {
 				}catch(Exception e){
 					System.out.println("Valor fuera de rango");
 				}
+				//// (cade peli como un objeto)
+				for(int i=0; i<bbdd2.size(); i++){
+				if(bbdd2.get(i).titulo.contains(input)){
+					System.out.println("Titulo => "+bbdd2.get(i).titulo);
+					System.out.println("Genero => "+bbdd2.get(i).genero);
+					System.out.println("Director => "+bbdd2.get(i).director);
+					System.out.println("Resumen => "+bbdd2.get(i).resumen);
+					System.out.println("Numero de votos => "+bbdd2.get(i).num_votos);
+				}
+				}
+				////
 				}
 				break;
 			case 3://lista peliculas solo titulo i votos ordena por num votos
@@ -114,19 +134,54 @@ public class TestPelicula {
 					for(int i=0; i<bbdd.size(); i++){
 						System.out.println(bbdd.get(i)[0]+"\t\t"+bbdd.get(i)[4]);
 					}
+					///// (cade peli como un objeto)
+					for(int j=0; j<bbdd2.size(); j++){
+						for(int i=0; i<bbdd2.size()-1; i++){
+							if(bbdd2.get(i).num_votos>bbdd2.get(i+1).num_votos){
+								//correcte
+							}
+							else{
+								String aux_titulo=bbdd2.get(i).titulo;
+								String aux_genero=bbdd2.get(i).genero;
+								String aux_resumen=bbdd2.get(i).resumen;
+								String aux_director=bbdd2.get(i).director;
+								int aux_votos=bbdd2.get(i).num_votos;
+								
+								bbdd2.get(i).titulo=bbdd2.get(i+1).titulo;
+								bbdd2.get(i).genero=bbdd2.get(i+1).genero;
+								bbdd2.get(i).resumen=bbdd2.get(i+1).resumen;
+								bbdd2.get(i).director=bbdd2.get(i+1).director;
+								bbdd2.get(i).num_votos=bbdd2.get(i+1).num_votos;
+								
+								bbdd2.get(i+1).titulo=aux_titulo;
+								bbdd2.get(i+1).genero=aux_genero;
+								bbdd2.get(i+1).resumen=aux_resumen;
+								bbdd2.get(i+1).director=aux_director;
+								bbdd2.get(i+1).num_votos=aux_votos;
+								
+										
+							}
+						}
+					}
+					System.out.println("Titulo\t\tNº Votos");
+					for(int i=0; i<bbdd2.size(); i++){
+						System.out.println(bbdd2.get(i).titulo+"\t\t"+bbdd2.get(i).num_votos);
+					}
+					/////
 				}
 				break;
 			case 4://votar pelicula
 				if(bbdd.size()==0){
 					System.out.println("No se ha seleccionado previamente ‘Carga datos inicio’");
 				}else{
-					
+					System.out.println("Titulo\t\tNº Votos");
 					for(int i=0; i<bbdd.size(); i++){
 						System.out.println(bbdd.get(i)[0]+"\t\t"+bbdd.get(i)[4]);
 					}
+					String input="";
 					try{
 						System.out.print("Introduce el Titulo a votar => ");
-						String input=stdin.readLine();
+						input=stdin.readLine();
 						boolean coiincidencia=false;
 						for(int i=0; i<bbdd.size(); i++){
 							if(bbdd.get(i)[0].equalsIgnoreCase(input)){
@@ -147,7 +202,23 @@ public class TestPelicula {
 					}catch(Exception e){
 						System.out.println("Valor fuera de rango");
 					}
+				///////(cade peli como un objeto)
+					System.out.println("Titulo\t\tNº Votos");
+					for(int i=0; i<bbdd2.size(); i++){
+						System.out.println(bbdd2.get(i).titulo+"\t\t"+bbdd2.get(i).num_votos);
+					}
+					for(int i=0; i<bbdd2.size(); i++){
+						if(bbdd2.get(i).titulo.equalsIgnoreCase(input)){
+							bbdd2.get(i).num_votos=(bbdd2.get(i).num_votos)+1;
+							System.out.println("Se ha sumado tu voto, Gracias por votar.");
+							System.out.println("El numero de votos ahora es de "+bbdd2.get(i).num_votos);
+						}
+						
+					}
+					
+					///////
 				}
+				
 				break;
 			case 5:
 				System.out.println("Dew.");
